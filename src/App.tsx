@@ -37,10 +37,10 @@ function App() {
   }
 
   return (
-    <div className="isolate">
-      <div className="relative -z-10">
+    <div className="isolate flex flex-col max-w-[900px] min-h-[100dvh] mx-auto">
+      <div className="sticky top-0 -z-10">
         <img
-          className="sticky top-0 min-h-[35vh] object-cover bg-slate-200"
+          className=" h-[35vh] max-h-[322px] w-full object-cover bg-slate-200"
           src={recipe?.imageUrl}
           alt={recipe.name}
         />
@@ -63,7 +63,7 @@ function App() {
           </button>
         )}
       </div>
-      <div className="grid gap-6 p-6 pt-7 -mt-10 rounded-t-[3rem] bg-white">
+      <div className="grow flex flex-col gap-6 p-6 pt-7 -mt-10 rounded-t-[3rem] bg-white">
         <header className="flex gap-3 items-start justify-between">
           <div className="grid gap-1">
             <div className="text-xs font-bold text-rose-500">
@@ -82,19 +82,17 @@ function App() {
               href={recipe.url}
               target="_blank"
               rel="noreferrer"
-              className=" inline-block px-4 py-2 text-sm text-center font-medium text-white bg-rose-500 rounded-md"
+              className=" md:mr-auto inline-block px-4 py-2 text-sm text-center font-medium text-white bg-rose-500 rounded-md"
             >
               See recipe
             </a>
           )}
-
           <List
             title="Ingredients"
             items={recipe.ingredients?.map((ingridient) =>
               [ingridient.amount, ingridient.unit, ingridient.name].join(" ")
             )}
           />
-
           <List
             title="Instructions"
             items={recipe.instructions?.map(
