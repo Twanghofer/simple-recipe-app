@@ -90,7 +90,11 @@ function App() {
           <List
             title="Ingredients"
             items={recipe.ingredients?.map((ingridient) =>
-              [ingridient.amount, ingridient.unit, ingridient.name].join(" ")
+              [
+                ingridient.amount?.toLocaleString(),
+                ingridient.unit,
+                ingridient.name,
+              ].join(" ")
             )}
           />
           <List
@@ -98,6 +102,7 @@ function App() {
             items={recipe.instructions?.map(
               (instruction) => instruction.description
             )}
+            type="numeric"
           />
         </main>
       </div>

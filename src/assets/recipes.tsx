@@ -18,11 +18,57 @@ interface Recipe {
 
 const recipes: Recipe[] = [
   {
-    name: "Test recipe",
-    tags: ["Lunch"],
-    readyInMinutes: 20,
+    name: "Oatmeal Chia Cup",
+    tags: ["Breakfast", "Dinner", "Vegan", "Vegetarian"],
+    readyInMinutes: 10,
     servings: 2,
-    url: "https://www.google.com",
+    ingredients: [
+      {
+        name: "Rolled oats",
+        amount: 2,
+        unit: "tablespoon",
+      },
+      {
+        name: "Chia seeds",
+        amount: 1,
+        unit: "tablespoon",
+      },
+      {
+        name: "Milk of any kind",
+        amount: 1 / 3,
+        unit: "cup",
+      },
+      {
+        name: "Yogurt of any kind",
+        amount: 1 / 3,
+        unit: "cup",
+      },
+      {
+        name: "Honey or Maplesyrup",
+        amount: 1,
+        unit: "teaspoon",
+      },
+      {
+        name: "Choppped fruit of your choice",
+        amount: 1 / 4,
+        unit: "cup",
+      },
+      {
+        name: "Raisins or other dried fruit",
+        amount: 1,
+        unit: "tablespoon",
+      },
+      {
+        name: "Chopped or sliced nut of your choice",
+        amount: 1,
+        unit: "tablespoon",
+      },
+    ],
+    instructions: [
+      {
+        description: "Put the ingridients as listed in a bowl or a jar.",
+      },
+    ],
   },
   {
     name: "Vegan Chicken and Rice",
@@ -32,17 +78,42 @@ const recipes: Recipe[] = [
     imageUrl: "/images/vegan-chicken-and-rice.webp",
     ingredients: [
       {
-        name: "Lorem ipsum dolor sit amet",
+        name: "Rice",
         amount: 1,
-        unit: "kg",
+        unit: "cup",
       },
       {
-        name: "consectetur adipiscing elit",
+        name: "Vegan Chicken",
+        amount: 1,
+        unit: "package",
+      },
+      {
+        name: "Vegetables",
+      },
+      {
+        name: "Oil",
+      },
+      {
+        name: "Soy sauce",
       },
     ],
     instructions: [
       {
-        description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        description:
+          "Start cooking the rice as instructed. Meanwhile start cutting the vegetables.",
+      },
+
+      {
+        description:
+          "Put a little bit of oil in a pan and start cooking the vegan chicken, shortly before the rice has soaked all the water.",
+      },
+      {
+        description:
+          "Put the vegetables in the pan with vegan chicken and let the mixture cook for a while, once the chicken is almost done.",
+      },
+      {
+        description:
+          "Lastly put the rice into the pan, add some soy sauce and stir it, while letting it cook on a low temperature.",
       },
     ],
   },
