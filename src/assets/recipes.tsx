@@ -1,4 +1,4 @@
-interface Recipe {
+export interface Recipe {
   id: string;
   name: string;
   tags: string[];
@@ -118,5 +118,21 @@ const recipes: Recipe[] = [
     ],
   },
 ].map((recipe) => ({ ...recipe, id: crypto.randomUUID() }));
+
+export const getRecipesApiResponse = (excludedIds: string[] = []) => {
+  const filteredRecipes = recipes.filter(
+    (recipe) => !excludedIds.includes(recipe.id)
+  );
+
+  const randomRecipe =
+    filteredRecipes[Math.floor(Math.random() * filteredRecipes.length)] ?? null;
+
+  return {
+    recipe: randomRecipe,
+    meta: {
+      remaining: randomRecipe ? filteredRecipes.length - 1 : 0,
+    },
+  };
+};
 
 export default recipes;
