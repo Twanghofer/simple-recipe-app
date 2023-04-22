@@ -76,10 +76,10 @@ function App() {
   }
 
   return (
-    <div className="isolate flex flex-col max-w-[900px] min-h-[100dvh] mx-auto">
+    <div className="relative isolate flex flex-col max-w-[900px] min-h-[100dvh] mx-auto shadow-xl">
       <div className="sticky top-0 -z-10">
         <img
-          className=" h-[35vh] max-h-[322px] w-full object-cover bg-slate-200"
+          className=" h-[35vh] max-h-[322px] w-full object-cover bg-gray-200 dark:bg-gray-700"
           src={currentRecipe?.imageUrl}
           alt={currentRecipe.name}
         />
@@ -102,15 +102,15 @@ function App() {
           </button>
         )}
       </div>
-      <div className="grow flex flex-col gap-6 p-6 pt-7 -mt-10 rounded-t-[3rem] bg-white">
+      <div className="grow flex flex-col gap-6 p-6 pt-7 -mt-10 rounded-t-[3rem] bg-white  dark:bg-gray-800 ">
         <header className="flex gap-3 items-start justify-between">
           <div className="grid gap-1">
-            <div className="text-xs font-bold text-rose-500">
+            <div className="text-xs font-bold text-red-500">
               {currentRecipe.tags.slice(0, 3).join(", ")}
             </div>
             <h1 className="text-3xl font-bold">{currentRecipe.name}</h1>
           </div>
-          <div className="text-sm font-medium whitespace-nowrap text-stone-500">
+          <div className="text-sm font-medium whitespace-nowrap text-gray-500 dark:text-gray-400">
             {currentRecipe.readyInMinutes} min
           </div>
         </header>
@@ -121,7 +121,7 @@ function App() {
               href={currentRecipe.url}
               target="_blank"
               rel="noreferrer"
-              className=" md:mr-auto inline-block px-4 py-2 text-sm text-center font-medium text-white bg-rose-500 rounded-md"
+              className=" md:mr-auto inline-block px-4 py-2 text-sm text-center font-medium text-white bg-red-500 rounded-md"
             >
               See recipe
             </a>
