@@ -1,19 +1,25 @@
+import { DocumentSnapshot } from "firebase/firestore";
 import { useEffect, useRef, useState } from "react";
-import { Recipe, getRecipesApiResponse } from "./assets/recipes";
 import List from "./components/List";
+import { getRandomRecipe } from "./utils/api";
+import { Recipe } from "./utils/types";
 
 function App() {
-  const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [remainingRecipesCount, setRemainingRecipesCount] = useState(0);
+  const [recipeDocuments, setRecipeDocuments] = useState<
+    DocumentSnapshot<Recipe>[]
+  >([]);
+  const [hasMoreRecipes, setHasMoreRecipes] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
 
   const startedFetchingRecipes = useRef(false);
+  const [isFetching, setIsFetching] = useState(false);
 
+  const recipes = recipeDocuments.map((recipe) => recipe.data()!);
   const currentRecipe = recipes[activeIndex];
   const previousRecipe = recipes[activeIndex - 1];
   const nextRecipe = recipes[activeIndex + 1];
 
-  const showNextRecipeButton = Boolean(nextRecipe || remainingRecipesCount);
+  const showNextRecipeButton = Boolean(nextRecipe || hasMoreRecipes);
 
   function getPreviousRecipe() {
     setActiveIndex((currentIndex) => currentIndex - 1);
@@ -34,33 +40,35 @@ function App() {
   }
 
   async function getNewRecipe() {
-    try {
-      const { recipe, meta } = await getRecipe();
+    if (isFetching) {
+      return;
+    }
 
-      if (!recipe) {
+    setIsFetching(true);
+
+    try {
+      const { documentSnapshot, hasMoreRecipes } = await getRecipe();
+      setHasMoreRecipes(hasMoreRecipes);
+
+      if (!documentSnapshot) {
         return;
       }
 
-      setRecipes((currentRecipes) => [...currentRecipes, recipe]);
-      setRemainingRecipesCount(meta.remaining);
-
-      return recipe;
+      setRecipeDocuments((recipeDocuments) => [
+        ...recipeDocuments,
+        documentSnapshot,
+      ]);
+      return documentSnapshot;
     } catch (error) {
-      console.log(error);
+      console.error(error);
+    } finally {
+      setIsFetching(false);
     }
   }
 
   async function getRecipe() {
-    const usedIds = recipes.map((recipe) => recipe.id);
-
-    //TODO: Add real API
-    /* const { data:newRecipe } = await axios.get("/recipes", {
-        params: {
-          excludedIds: usedIds,
-        },
-      }); */
-
-    return getRecipesApiResponse(usedIds);
+    const usedIds = recipeDocuments.map((recipe) => recipe.id);
+    return await getRandomRecipe(usedIds);
   }
 
   useEffect(() => {
@@ -70,9 +78,12 @@ function App() {
     }
   }, []);
 
-  if (!currentRecipe) {
-    //TODO: Add loading state
+  if (isFetching) {
     return <div>Loading...</div>;
+  }
+
+  if (!currentRecipe) {
+    return <div>No more recipes</div>;
   }
 
   return (
