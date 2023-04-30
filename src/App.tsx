@@ -13,6 +13,7 @@ function App() {
 
   const startedFetchingRecipes = useRef(false);
   const [isFetching, setIsFetching] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const recipes = recipeDocuments.map((recipe) => recipe.data()!);
   const currentRecipe = recipes[activeIndex];
@@ -60,7 +61,7 @@ function App() {
       ]);
       return documentSnapshot;
     } catch (error) {
-      console.error(error);
+      setErrorMessage(getErrorMessage(error));
     } finally {
       setIsFetching(false);
     }
@@ -69,6 +70,14 @@ function App() {
   async function getRecipe() {
     const usedIds = recipeDocuments.map((recipe) => recipe.id);
     return await getRandomRecipe(usedIds);
+  }
+
+  function getErrorMessage(error: unknown) {
+    if (error instanceof Error) {
+      return error.message;
+    }
+
+    return String(error);
   }
 
   useEffect(() => {
@@ -82,8 +91,12 @@ function App() {
     return <div>Loading...</div>;
   }
 
+  if (errorMessage) {
+    return <div>{errorMessage}</div>;
+  }
+
   if (!currentRecipe) {
-    return <div>No more recipes</div>;
+    return <div>Recipe not found</div>;
   }
 
   return (
